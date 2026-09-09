@@ -1,6 +1,18 @@
-# NACA 0012 Automated CFD Validation & Verification Pipeline
+# NACA 0012 Airfoil CFD & Automated NASA Validation Pipeline
+#### Video Demo: <PASTE_YOUR_YOUTUBE_URL_HERE>
+#### Description:
 
-An automated Python software pipeline for verifying and validating Ansys Fluent 2D CFD simulations of a NACA 0012 airfoil against NASA Langley experimental wind tunnel data (Ladson, 1988). The framework automates data extraction, calculates discretization error using Roache's Grid Convergence Index (GCI) per ASME V&V 20 standards, and generates publication-grade validation plots.
+An automated Python-based verification and validation (V&V) pipeline for 2D aerodynamic simulations of the NACA 0012 airfoil operating at $Re = 3 \times 10^6$ and $\alpha = 4^\circ$. The system parses raw CFD surface pressure exports from Ansys Fluent, benchmarks pressure coefficient distributions ($C_p$) against NASA Langley wind tunnel data (Ladson, 1988), and quantifies discretization uncertainty across three mesh densities using Roache’s Grid Convergence Index (GCI) per ASME V&V 20 standards.
+
+### File Structure & Functionality
+* `project.py`: The primary command-line interface and submission entry point. Executes the pipeline, runs validations, and coordinates figure rendering.
+* `src/parser.py`: Handles file I/O, parsing raw CSV surface outputs from Fluent and structured space-delimited NASA benchmark `.dat` files into Pandas DataFrames.
+* `src/metrics.py`: Contains numerical routines including trapezoidal numerical integration to calculate section lift ($C_L$) and GCI calculation functions to determine spatial discretization error.
+* `src/visualization.py`: Generates publication-grade Matplotlib plots, exporting $C_p$ validation curves, $C_L-\alpha$ comparisons, and GCI convergence trends directly to `reports/figures/`.
+* `test_project.py`: PyTest testing suite validating parser error handling, numerical integration accuracy, and metric thresholds.
+
+### Key Design Choices
+During development, I prioritized object oriented encapsulation using a custom dataset class (`SimulationDataset`) to keep physical state attributes organized. To ensure strict software reliability, I separated raw data transformation from visualization logic, enabling headless execution in continuous integration environments.
 
 ---
 

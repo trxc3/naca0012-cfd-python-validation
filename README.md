@@ -35,8 +35,8 @@ $$C_L \approx \int_{0}^{1} (C_{p,\text{lower}} - C_{p,\text{upper}}) \, d\left(\
 ## Verification & Validation Results
 
 <p align="center">
-  <img src="reports/figures/cl_alpha_validation.png" width="49%" alt="Lift Curve Validation"/>
-  <img src="reports/figures/gci_analysis.png" width="49%" alt="Grid Convergence Index Analysis"/>
+  <img src="reports/figures/cl_alpha_curve.png" width="49%" alt="Lift Curve Validation"/>
+  <img src="reports/figures/gci_convergence.png" width="49%" alt="Grid Convergence Index Analysis"/>
 </p>
 ---
 
@@ -69,22 +69,23 @@ Validation was conducted at angle of attack $\alpha = 4^\circ$ and Reynolds numb
 
 ## Repository Structure
 
+```text
 naca0012-cfd-python-validation/
 ├── data/
-│   ├── benchmark/        # NASA Ladson CP_Ladson.dat data
-│   └── raw/              # Fluent surface pressure & y+ CSV exports
+│   ├── benchmark/          # NASA Ladson CP_Ladson.dat data
+│   └── raw/                # Fluent surface pressure & y+ CSV exports
 ├── reports/
-│   ├── figures/          # Exported high-res validation plots
-│   └── validation_summary.csv
+│   └── figures/            # Exported high-res validation plots
+│       └── validation_summary.csv
 ├── src/
-│   ├── dataset.py        # SimulationDataset OOP module
-│   ├── metrics.py        # Trapezoidal integration & GCI functions
-│   ├── parser.py         # Ansys CSV & NASA dat parsing routines
-│   └── visualization.py  # Matplotlib figure generation functions
-├── project.py            # Primary CLI application (CS50P entry point)
-├── test_project.py       # PyTest unit testing suite
-└── requirements.txt      # Clean python dependency specifications
-
+│   ├── dataset.py          # SimulationDataset OOP module
+│   ├── metrics.py          # Trapezoidal integration & GCI functions
+│   ├── parser.py           # Ansys CSV & NASA dat parsing routines
+│   └── visualization.py    # Matplotlib figure generation functions
+├── project.py              # Primary CLI application (CS50P entry point)
+├── test_project.py         # PyTest unit testing suite
+└── requirements.txt        # Clean python dependency specifications
+```
 ---
 
 ## Quickstart & CLI Usage

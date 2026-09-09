@@ -1,4 +1,13 @@
 # NACA 0012 Airfoil CFD & Automated NASA Validation Pipeline
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python Version" />
+  <img src="https://img.shields.io/badge/Ansys-Fluent-red?style=for-the-badge&logo=ansys&logoColor=white" alt="Ansys Fluent" />
+  <img src="https://img.shields.io/badge/Validation-ASME%20V%26V%2020-green?style=for-the-badge" alt="ASME V&V 20" />
+  <img src="https://img.shields.io/badge/Harvard-CS50P-a31c1c?style=for-the-badge" alt="CS50P" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License" />
+</p>
+
 #### Video Demo: <https://youtu.be/tQbIenlWktU?si=pW6_sYMyQIz6J8la>
 #### Description:
 

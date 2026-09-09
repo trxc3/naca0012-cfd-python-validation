@@ -31,7 +31,7 @@ class SimulationDataset:
         )
 
     def summary(self) -> dict:
-        """Returns a clean summary dictionary of the dataset metrics."""
+
         return {
             "mesh_level": self.mesh_level,
             "aoa": self.aoa,

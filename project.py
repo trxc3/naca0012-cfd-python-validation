@@ -37,14 +37,14 @@ def export_reports_and_plots(
         else None
     )
 
-    # 1. Cp Distribution Plot
+    # Cp Distribution Plot
     plot_cp_comparison(
         cfd_df=fine_sim.df_cp,
         nasa_df=nasa_cp_df,
         save_path=os.path.join(output_dir, "cp_distribution.png"),
     )
 
-    # 2. GCI Convergence Plot
+    # GCI Convergence Plot
     plot_gci_uncertainty(
         mesh_names=["Coarse", "Medium", "Fine"],
         cl_values=[0.43500, 0.43228, fine_sim.cl_integrated],
@@ -52,7 +52,7 @@ def export_reports_and_plots(
         save_path=os.path.join(output_dir, "gci_convergence.png"),
     )
 
-    # 3. Lift Curve Plot
+    #Lift Curve Plot
     nasa_cl_df = pd.DataFrame(
         {
             "aoa": [-2, 0, 2, 4, 6, 8, 10],

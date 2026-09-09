@@ -6,11 +6,11 @@ def generate_naca0012_points(num_points: int = 150, chord: float = 1.0, sharp_te
   
     os.makedirs("data", exist_ok=True)
     
-    # 1. Cosine Spacing (clusters points near LE and TE)
+    # Cosine Spacing (clusters points near LE and TE)
     beta = np.linspace(0, np.pi, num_points)
     x = 0.5 * chord * (1.0 - np.cos(beta))
     
-    # 2. NACA 0012 Thickness Formula
+    # NACA 0012 Thickness Formula
     # Using -0.1036 forces exact zero thickness at trailing edge (sharp TE)
     a4 = -0.1036 if sharp_te else -0.1015
     
@@ -22,7 +22,7 @@ def generate_naca0012_points(num_points: int = 150, chord: float = 1.0, sharp_te
         + a4 * (x / chord)**4
     )
     
-    # 3. Create Continuous Closed Loop 
+    #Create Continuous Closed Loop 
     x_upper = x[::-1]
     y_upper = yt[::-1]
     
@@ -37,11 +37,11 @@ def generate_naca0012_points(num_points: int = 150, chord: float = 1.0, sharp_te
         x_coords = np.append(x_coords, x_coords[0])
         y_coords = np.append(y_coords, y_coords[0])
 
-    # 4. Clean up floating-point -0.0 artifacts
+    # Clean up floating-point -0.0 artifacts
     x_coords = np.where(np.abs(x_coords) < 1e-12, 0.0, x_coords) + 0.0
     y_coords = np.where(np.abs(y_coords) < 1e-12, 0.0, y_coords) + 0.0
 
-    # 5. Save SpaceClaim Format (Requires 3d=true header + SPACE delimiters)
+    # 5ave SpaceClaim Format (Requires 3d=true header + SPACE delimiters)
     sc_path = os.path.join("data", "naca0012_spaceclaim.txt")
     with open(sc_path, "w") as f:
         f.write("3d=true\n")
@@ -49,7 +49,7 @@ def generate_naca0012_points(num_points: int = 150, chord: float = 1.0, sharp_te
         for px, py in zip(x_coords, y_coords):
             f.write(f"{px:.8f} {py:.8f} 0.00000000\n")
             
-    # 6. Save DesignModeler Format (Group# Pt# X Y Z)
+    # Save DesignModeler Format (Group# Pt# X Y Z)
     dm_path = os.path.join("data", "naca0012_dm.txt")
     with open(dm_path, "w") as f:
         for idx, (px, py) in enumerate(zip(x_coords, y_coords), start=1):

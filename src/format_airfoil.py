@@ -2,7 +2,7 @@ import os
 import numpy as np
 
 def generate_naca0012_points(num_points: int = 150, chord: float = 1.0, sharp_te: bool = True):
-#Generates NACA 0012 profile coordinates for Ansys SpaceClaim and DesignModeler.
+#Generates NACA 0012 profile coordinates for Ansys SpaceClaim and DesignModeler
   
     os.makedirs("data", exist_ok=True)
     
@@ -22,7 +22,7 @@ def generate_naca0012_points(num_points: int = 150, chord: float = 1.0, sharp_te
         + a4 * (x / chord)**4
     )
     
-    # 3. Create Continuous Closed Loop (TE -> LE -> TE)
+    # 3. Create Continuous Closed Loop 
     x_upper = x[::-1]
     y_upper = yt[::-1]
     

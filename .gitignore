@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Ansys Workbench generated files
+*.wbpj
+*_files/
+*.backup*
+*.log

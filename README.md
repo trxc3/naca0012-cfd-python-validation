@@ -1,5 +1,5 @@
 # NACA 0012 Airfoil CFD & Automated NASA Validation Pipeline
-#### Video Demo: <PASTE_YOUR_YOUTUBE_URL_HERE>
+#### Video Demo: <https://youtu.be/tQbIenlWktU?si=pW6_sYMyQIz6J8la>
 #### Description:
 
 An automated Python-based verification and validation (V&V) pipeline for 2D aerodynamic simulations of the NACA 0012 airfoil operating at $Re = 3 \times 10^6$ and $\alpha = 4^\circ$. The system parses raw CFD surface pressure exports from Ansys Fluent, benchmarks pressure coefficient distributions ($C_p$) against NASA Langley wind tunnel data (Ladson, 1988), and quantifies discretization uncertainty across three mesh densities using Roache’s Grid Convergence Index (GCI) per ASME V&V 20 standards.

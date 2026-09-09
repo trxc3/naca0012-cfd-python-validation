@@ -4,6 +4,14 @@ An automated Python software pipeline for verifying and validating Ansys Fluent 
 
 ---
 
+## Key Validation Highlights
+
+<p align="center">
+  <img src="reports/figures/naca0012_cp_validation.png" width="90%" alt="NACA 0012 Surface Pressure Coefficient Validation"/>
+</p>
+
+---
+
 ## Governing Physics & Numerical Methodology
 
 ### Incompressible RANS Formulation
@@ -24,8 +32,25 @@ $$C_L \approx \int_{0}^{1} (C_{p,\text{lower}} - C_{p,\text{upper}}) \, d\left(\
 
 ---
 
-## Grid Convergence Index (GCI) Verification
+## Verification & Validation Results
 
+<p align="center">
+  <img src="reports/figures/cl_alpha_validation.png" width="49%" alt="Lift Curve Validation"/>
+  <img src="reports/figures/gci_analysis.png" width="49%" alt="Grid Convergence Index Analysis"/>
+</p>
+---
+
+## Ansys Fluent Field Contours ($\alpha = 4^\circ$, $Re = 3 \times 10^6$)
+
+<p align="center">
+  <img src="reports/figures/fluent_pressure_contour.png" width="49%" alt="Ansys Fluent Static Pressure Contour"/>
+  <img src="reports/figures/fluent_velocity_contour.png" width="49%" alt="Ansys Fluent Velocity Magnitude Contour"/>
+</p>
+
+* **Static Pressure Contour (Left):** Illustrates the high-pressure stagnation region at the leading edge ($C_p \approx 1.0$) and strong upper-surface suction peak driving section lift.
+* **Velocity Magnitude Contour (Right):** Demonstrates boundary layer acceleration over the upper surface and the development of the viscous trailing-edge wake.
+
+### Grid Convergence Index (GCI) Verification
 Discretization uncertainty was evaluated across three systematically refined structured meshes (refinement ratio $r \approx 1.5$) per ASME V&V 20 guidelines:
 
 | Mesh Level | Cell Count | Integrated $C_L$ | Max $y^+$ | Relative Error ($e_a$) | Fine Mesh GCI ($\text{GCI}_{\text{fine}}$) |
@@ -34,10 +59,7 @@ Discretization uncertainty was evaluated across three systematically refined str
 | **Medium** | ~55,000 | 0.43228 | N/A | 0.63% | — |
 | **Fine** | ~120,000 | 0.40431 | 0.929 | 6.92% | **8.65%** |
 
----
-
-## Experimental Validation Results
-
+### Experimental Validation Summary
 Validation was conducted at angle of attack $\alpha = 4^\circ$ and Reynolds number $Re = 3 \times 10^6$:
 
 1. **Surface Pressure ($C_p$)**: Python integration confirms close agreement between Ansys Fluent CFD predictions and NASA Langley experimental pressure taps across suction and pressure surfaces.
@@ -70,3 +92,7 @@ naca0012-cfd-python-validation/
 ### 1. Install Dependencies
 ```bash
 pip install -r requirements.txt
+```
+### 2. Generate Validation Pipeline & Figures
+```bash
+python project.py --export-plots

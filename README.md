@@ -7,7 +7,7 @@ An automated Python software pipeline for verifying and validating Ansys Fluent 
 ## Key Validation Highlights
 
 <p align="center">
-  <img src="reports/figures/naca0012_cp_validation.png" width="90%" alt="NACA 0012 Surface Pressure Coefficient Validation"/>
+  <img src="reports/figures/cp_distribution.png" width="90%" alt="NACA 0012 Surface Pressure Coefficient Validation"/>
 </p>
 
 ---

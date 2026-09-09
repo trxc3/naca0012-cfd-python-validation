@@ -38,6 +38,7 @@ $$C_L \approx \int_{0}^{1} (C_{p,\text{lower}} - C_{p,\text{upper}}) \, d\left(\
   <img src="reports/figures/cl_alpha_curve.png" width="49%" alt="Lift Curve Validation"/>
   <img src="reports/figures/gci_convergence.png" width="49%" alt="Grid Convergence Index Analysis"/>
 </p>
+
 ---
 
 ## Ansys Fluent Field Contours ($\alpha = 4^\circ$, $Re = 3 \times 10^6$)
@@ -49,6 +50,8 @@ $$C_L \approx \int_{0}^{1} (C_{p,\text{lower}} - C_{p,\text{upper}}) \, d\left(\
 
 * **Static Pressure Contour (Left):** Illustrates the high-pressure stagnation region at the leading edge ($C_p \approx 1.0$) and strong upper-surface suction peak driving section lift.
 * **Velocity Magnitude Contour (Right):** Demonstrates boundary layer acceleration over the upper surface and the development of the viscous trailing-edge wake.
+
+---
 
 ### Grid Convergence Index (GCI) Verification
 Discretization uncertainty was evaluated across three systematically refined structured meshes (refinement ratio $r \approx 1.5$) per ASME V&V 20 guidelines:

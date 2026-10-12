@@ -3,14 +3,13 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python Version" />
   <img src="https://img.shields.io/badge/Ansys-Fluent-red?style=for-the-badge&logo=ansys&logoColor=white" alt="Ansys Fluent" />
-  <img src="https://img.shields.io/badge/Validation-ASME%20V%26V%2020-green?style=for-the-badge" alt="ASME V&V 20" />
   <img src="https://img.shields.io/badge/Harvard-CS50P-a31c1c?style=for-the-badge" alt="CS50P" />
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License" />
 </p>
 
 #### Description:
 
-An automated Python-based verification and validation (V&V) pipeline for 2D aerodynamic simulations of the NACA 0012 airfoil operating at $Re = 3 \times 10^6$ and $\alpha = 4^\circ$. The system parses raw CFD surface pressure exports from Ansys Fluent, benchmarks pressure coefficient distributions ($C_p$) against NASA Langley wind tunnel data (Ladson, 1988), and quantifies discretization uncertainty across three mesh densities using Roache’s Grid Convergence Index (GCI) per ASME V&V 20 standards.
+An automated Python-based verification and validation (V&V) pipeline for 2D aerodynamic simulations of the NACA 0012 airfoil operating at $Re = 3 \times 10^6$ and $\alpha = 4^\circ$. The system parses raw CFD surface pressure exports from Ansys Fluent, benchmarks pressure coefficient distributions ($C_p$) against NASA Langley wind tunnel data (Ladson, 1988), and quantifies discretization uncertainty across three mesh densities using Roache’s Grid Convergence Index (GCI).
 
 ### File Structure & Functionality
 - `project.py`: The primary command-line interface and submission entry point. Executes the pipeline, runs validations, and coordinates figure rendering.
@@ -74,7 +73,7 @@ $$C_L \approx \int_{0}^{1} (C_{p,\text{lower}} - C_{p,\text{upper}}) \, d\left(\
 ---
 
 ### Grid Convergence Index (GCI) Verification
-Discretization uncertainty was evaluated across three systematically refined structured/unstructured meshes per ASME V&V 20 guidelines:
+Discretization uncertainty was evaluated across three systematically refined structured/unstructured meshes using Roache's method:
 
 | Mesh Level | Cell Count | Integrated $C_L$ | Max $y^+$ | Relative Error ($e_a$) | Fine Mesh GCI ($\text{GCI}_{\text{fine}}$) |
 | :--- | :--- | :--- | :--- | :--- | :--- |

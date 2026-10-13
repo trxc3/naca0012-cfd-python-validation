@@ -1,25 +1,16 @@
-# NACA 0012 Airfoil CFD & Automated NASA Validation Pipeline
+# NACA 0012 Airfoil CFD & Python-Based Experimental Comparison
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python Version" />
   <img src="https://img.shields.io/badge/Ansys-Fluent-red?style=for-the-badge&logo=ansys&logoColor=white" alt="Ansys Fluent" />
-  <img src="https://img.shields.io/badge/Harvard-CS50P-a31c1c?style=for-the-badge" alt="CS50P" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License: MIT" /></a>
 </p>
 
-#### Description:
+## Description
 
-An automated Python-based verification and validation (V&V) pipeline for 2D aerodynamic simulations of the NACA 0012 airfoil operating at $Re = 3 \times 10^6$ and $\alpha = 4^\circ$. The system parses raw CFD surface pressure exports from Ansys Fluent, benchmarks pressure coefficient distributions ($C_p$) against NASA Langley wind tunnel data (Ladson, 1988), and quantifies discretization uncertainty across three mesh densities using Roache’s Grid Convergence Index (GCI).
+A Python-based workflow for analysing two-dimensional computational fluid dynamics (CFD) simulations of a NACA 0012 airfoil at a Reynolds number of $Re = 3 \times 10^6$. The project combines steady-state Reynolds-averaged Navier–Stokes (RANS) simulations in Ansys Fluent with Python-based processing of surface pressure coefficient ($C_p$) data and comparison against NASA Langley experimental measurements (Ladson, 1988).
 
-### File Structure & Functionality
-- `project.py`: The primary command-line interface and submission entry point. Executes the pipeline, runs validations, and coordinates figure rendering.
-- `src/parser.py`: Handles file I/O, parsing raw CSV surface outputs from Fluent and structured space-delimited NASA benchmark `.dat` files into Pandas DataFrames.
-- `src/metrics.py`: Contains numerical routines including trapezoidal numerical integration to calculate section lift ($C_L$) and GCI calculation functions to determine spatial discretization error.
-- `src/visualization.py`: Generates publication-grade Matplotlib plots, exporting $C_p$ validation curves, $C_L-\alpha$ comparisons, and GCI convergence trends directly to `reports/figures/`.
-- `test_project.py`: PyTest testing suite validating parser error handling, numerical integration accuracy, and metric thresholds.
-
-### Key Design Choices
-During development, I prioritized object oriented encapsulation using a custom dataset class (`SimulationDataset`) to keep physical state attributes organized. To ensure strict software reliability, I separated raw data transformation from visualization logic, enabling headless execution in continuous integration environments.
+The workflow includes data parsing, pressure-based lift estimation, visualisation of CFD and experimental results, and an investigation of mesh sensitivity using three mesh resolutions. Python routines were also developed to implement Roache's Grid Convergence Index (GCI) methodology to investigate discretisation uncertainty.
 
 ---
 
@@ -31,61 +22,68 @@ During development, I prioritized object oriented encapsulation using a custom d
 
 ---
 
-## Governing Physics & Numerical Methodology
+## Turbulence Modelling and Wall Resolution
 
-### Incompressible RANS Formulation
-The steady, two dimensional incompressible Reynolds-Averaged Navier-Stokes (RANS) equations govern the flow field:
-
-$$\frac{\partial u_i}{\partial x_i} = 0$$
-
-$$\rho u_j \frac{\partial u_i}{\partial x_j} = -\frac{\partial p}{\partial x_i} + \frac{\partial}{\partial x_j} \left[ \mu \left( \frac{\partial u_i}{\partial x_j} + \frac{\partial u_j}{\partial x_i} \right) - \rho \overline{u_i' u_j'} \right]$$
-
-### Turbulence Modeling & Wall Resolution
-- **$k\text{-}\omega$ SST Model**: Menter's Shear Stress Transport model blends $k\text{-}\omega$ near the wall with $k\text{-}\epsilon$ in the far field to resolve boundary layer separation under adverse pressure gradients.
-- **Wall Distance**: Dimensionless wall distance $y^+ < 1.0$ is maintained across the fine surface mesh to directly resolve the viscous sublayer without wall functions ($\Delta y_1 = 8.45 \times 10^{-6}\text{ m}$).
-
-### Surface Pressure Integration
-Lift coefficient ($C_L$) is integrated independently via the trapezoidal rule over normalized chord coordinates ($x/c$):
-
-$$C_L \approx \int_{0}^{1} (C_{p,\text{lower}} - C_{p,\text{upper}}) \, d\left(\frac{x}{c}\right)$$
+- **Turbulence Model**: Used the $k\text{-}\omega$ Shear Stress Transport (SST) model for the reported simulations. The model combines near-wall $k\text{-}\omega$ behaviour with $k\text{-}\varepsilon$-based behaviour in the outer flow and is commonly used for aerodynamic flows involving adverse pressure gradients.
+- **Near-Wall Mesh**: Targeted a dimensionless wall distance of $y^+ < 1$ on the fine mesh. The initial wall-adjacent cell height was estimated as $\Delta y_1 = 8.45 \times 10^{-6}\text{ m}$ for the chosen flow conditions. The resulting $y^+$ distribution should be checked in Fluent to confirm that the target was achieved.
 
 ---
 
-## Verification & Validation Results
+## Mesh Sensitivity Analysis
+
+Three mesh resolutions were investigated at an angle of attack of $4^\circ$ and a Reynolds number of $3 \times 10^6$.
+
+| Mesh Level | Cell Count | Lift Coefficient ($C_L$) |
+| :--- | :--- | :--- |
+| **Coarse** | ~15,000 | 0.43585 |
+| **Medium** | ~45,000 | 0.43633 |
+| **Fine** | ~130,000 | 0.40688 |
+
+The coarse- and medium-mesh lift coefficients are similar, whereas the fine-mesh result shows a larger difference. This indicates that the recorded results do not demonstrate straightforward monotonic convergence.
+
+Python routines were developed to investigate discretisation uncertainty using Roache's Grid Convergence Index (GCI) methodology. However, the recorded lift coefficients do not show straightforward monotonic convergence, so the refinement assumptions and results require further investigation before a reliable GCI estimate can be reported.
+
+---
+
+## Experimental Comparison with NASA Data
+
+The CFD surface-pressure coefficient ($C_p$) distribution was compared with NASA Langley experimental data for the NACA 0012 airfoil at $Re = 3 \times 10^6$ and an angle of attack of $4^\circ$. Python routines process the CFD and experimental data to generate comparative plots and estimate lift by numerically integrating the pressure difference between the upper and lower surfaces. Quantitative agreement and the influence of mesh resolution require further assessment.
+
+---
+
+## Additional Analysis Plots
+
+The figures below show the recorded lift-coefficient trends and exploratory mesh-sensitivity analysis. The mesh results require further investigation before a reliable grid-convergence conclusion can be drawn.
 
 <p align="center">
-  <img src="reports/figures/cl_alpha_curve.png" width="49%" alt="Lift Curve Validation"/>
-  <img src="reports/figures/gci_convergence.png" width="49%" alt="Grid Convergence Index Analysis"/>
+  <img src="reports/figures/cl_alpha_curve.png" width="49%" alt="Lift Curve Trends"/>
+  <img src="reports/figures/gci_convergence.png" width="49%" alt="Exploratory Mesh-Sensitivity Analysis"/>
 </p>
 
 ---
 
-## Ansys Fluent Field Contours ($\alpha = 4^\circ$, $Re = 3 \times 10^6$)
+## Ansys Fluent Flow Visualisation ($\alpha = 4^\circ$, $Re = 3 \times 10^6$)
 
 <p align="center">
   <img src="reports/figures/fluent_pressure_contour.png" width="49%" alt="Ansys Fluent Static Pressure Contour"/>
   <img src="reports/figures/fluent_velocity_contour.png" width="49%" alt="Ansys Fluent Velocity Magnitude Contour"/>
 </p>
 
-- **Static Pressure Contour (Left):** Illustrates the high-pressure stagnation region at the leading edge ($C_p \approx 1.0$) and strong upper-surface suction peak driving section lift.
-- **Velocity Magnitude Contour (Right):** Demonstrates boundary layer acceleration over the upper surface and the development of the viscous trailing-edge wake.
+- **Static Pressure:** Shows the pressure distribution around the airfoil, including the leading-edge stagnation region and variations in surface pressure.
+- **Velocity Magnitude:** Shows the computed velocity field around the airfoil and in the downstream wake.
 
 ---
 
-### Grid Convergence Index (GCI) Verification
-Discretization uncertainty was evaluated across three systematically refined structured/unstructured meshes using Roache's method:
+## Python Workflow and Design
 
-| Mesh Level | Cell Count | Integrated $C_L$ | Max $y^+$ | Relative Error ($e_a$) | Fine Mesh GCI ($\text{GCI}_{\text{fine}}$) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Coarse** | ~15,000 | 0.43585 | N/A | — | — |
-| **Medium** | ~45,000 | 0.43633 | N/A | 0.63% | — |
-| **Fine** | ~130,000 | 0.40688 | < 1.0 | 6.92% | **8.65%** |
+The Python workflow separates data processing, numerical analysis and visualisation into dedicated modules.
 
-### Experimental Validation Summary
-Validation was conducted at angle of attack $\alpha = 4^\circ$ and Reynolds number $Re = 3 \times 10^6$:
-
-1. **Surface Pressure ($C_p$)**: Python integration confirms close agreement between Ansys Fluent CFD predictions and NASA Langley experimental pressure taps across suction and pressure surfaces.
-2. **Lift Slope**: The fine-mesh prediction ($C_L = 0.40688$) reflects viscous decambering effects observed in experimental wind tunnel data compared to inviscid Thin Airfoil Theory ($2\pi / \text{rad}$).
+- `src/parser.py`: Parses CFD exports and NASA benchmark data into structured dataframes.
+- `src/metrics.py`: Implements numerical routines for pressure-based lift estimation and GCI analysis.
+- `src/visualization.py`: Generates plots for comparing surface-pressure distributions and visualising simulation results.
+- `src/dataset.py`: Organises simulation data through the `SimulationDataset` class.
+- `project.py`: Provides the main entry point for running the analysis workflow.
+- `test_project.py`: Contains unit tests for the implemented parsing and numerical functions.
 
 ---
 
@@ -104,8 +102,9 @@ naca0012-cfd-python-validation/
 │   ├── metrics.py          # Trapezoidal integration & GCI functions
 │   ├── parser.py           # Ansys CSV & NASA dat parsing routines
 │   └── visualization.py    # Matplotlib figure generation functions
-├── project.py              # Primary CLI application (CS50P entry point)
+├── project.py              # Primary CLI application
 ├── test_project.py         # PyTest unit testing suite
+├── LICENSE                 # MIT License file
 └── requirements.txt        # Clean python dependency specifications
 ```
 ---
